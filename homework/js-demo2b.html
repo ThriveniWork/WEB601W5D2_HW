@@ -9,9 +9,38 @@
 
 <script>
     $(document).ready(function() {
-       $("#btn").click(function(event){
+        $("#btn").click(function(event) {
+            // Remove existing div if present (to prevent duplicates)
+            $("#showinfo").remove();
 
-       });
+            // Add a div element within the body
+            $("body").append('<div id="showinfo"></div>');
+
+            // Create a table and append it within the div
+            var table = $('<table id="dataTable" border="1"></table>');
+            
+            // Add the first row with "Table details" in red color
+            var firstRow = $('<tr><th colspan="5" style="color: red;">CALORIES COMPARISON OF POPULAR BURGERS</th></tr>');
+            table.append(firstRow);
+
+            // Load data from JSON file and insert into table
+            $.getJSON("/Homework/data.json", function(jqdata) {
+                // Create rows for Type, Calories, Fat Content, and Vendor
+                var typeRow = $('<tr><th>Type</th><td>' + jqdata.head1 + '</td><td>' + jqdata.head2 + '</td><td>' + jqdata.head3 + '</td><td>' + jqdata.head4 + '</td></tr>');
+                var caloriesRow = $('<tr><th>Calories</th><td>' + jqdata.cal1 + '</td><td>' + jqdata.cal2 + '</td><td>' + jqdata.cal3 + '</td><td>' + jqdata.cal4 + '</td></tr>');
+                var fatRow = $('<tr><th>Fat Content</th><td>' + jqdata.fat1 + '</td><td>' + jqdata.fat2 + '</td><td>' + jqdata.fat3 + '</td><td>' + jqdata.fat4 + '</td></tr>');
+                var vendorRow = $('<tr><th>Vendor</th><td>' + jqdata.ven1 + '</td><td>' + jqdata.ven2 + '</td><td>' + jqdata.ven3 + '</td><td>' + jqdata.ven4 + '</td></tr>');
+
+                // Append the rows to the table
+                table.append(typeRow);
+                table.append(caloriesRow);
+                table.append(fatRow);
+                table.append(vendorRow);
+
+                // Append the table to the div
+                $("main").append(table);
+            });
+        });
     });
  </script>
 </head> 	
@@ -73,10 +102,7 @@
 
     <input type = "button" id = "btn" value = "Load Data" style="margin-top:20px;" />
 </main>
-
-<footer>&copy; Copyright 2020</footer>
-
+    <footer>&copy; Copyright 2020</footer> 
 </div>
-
 </body>
 </html>
